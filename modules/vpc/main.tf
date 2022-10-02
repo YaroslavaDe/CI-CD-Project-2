@@ -29,7 +29,7 @@ resource "aws_subnet" "public_subnet_az1" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "public subnet az1"
+    Name = var.public_subnet_az1_name
   }
 }
 
@@ -41,7 +41,7 @@ resource "aws_subnet" "public_subnet_az2" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "public subnet az2"
+    Name = var.public_subnet_az2_name
   }
 }
 
@@ -50,12 +50,12 @@ resource "aws_route_table" "public_route_table" {
   vpc_id = aws_vpc.vpc.id
 
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block = var.cidr
     gateway_id = aws_internet_gateway.internet_gateway.id
   }
 
   tags = {
-    Name = "public route table"
+    Name = var.public_route_table_name
   }
 }
 
@@ -79,7 +79,7 @@ resource "aws_subnet" "private_app_subnet_az1" {
   map_public_ip_on_launch = false
 
   tags = {
-    Name = "private app subnet az1"
+    Name = var.private_app_subnet_az1_name
   }
 }
 
@@ -91,6 +91,6 @@ resource "aws_subnet" "private_app_subnet_az2" {
   map_public_ip_on_launch = false
 
   tags = {
-    Name = "private app subnet az2"
+    Name = var.private_app_subnet_az2_name
   }
 }

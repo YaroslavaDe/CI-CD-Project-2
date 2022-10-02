@@ -3,7 +3,7 @@ resource "aws_eip" "eip_for_nat_gateway_az1" {
   vpc = true
 
   tags = {
-    Name = "nat gateway az1 eip"
+    Name = var.aws_eip_az1_name
   }
 }
 
@@ -12,7 +12,7 @@ resource "aws_eip" "eip_for_nat_gateway_az2" {
   vpc = true
 
   tags = {
-    Name = "nat gateway az2 eip"
+    Name = var.aws_eip_az2_name
   }
 }
 
@@ -22,7 +22,7 @@ resource "aws_nat_gateway" "nat_gateway_az1" {
   subnet_id     = var.public_subnet_az1_id
 
   tags = {
-    Name = "nat gateway az1"
+    Name = var.nat_gateway_az1_name
   }
 
   # to ensure proper ordering, it is recommended to add an explicit dependency
@@ -35,7 +35,7 @@ resource "aws_nat_gateway" "nat_gateway_az2" {
   subnet_id     = var.public_subnet_az2_id
 
   tags = {
-    Name = "nat gateway az2"
+    Name = var.nat_gateway_az2_name
   }
 
   # to ensure proper ordering, it is recommended to add an explicit dependency
@@ -48,12 +48,12 @@ resource "aws_route_table" "private_route_table_az1" {
   vpc_id = var.vpc_id
 
   route {
-    cidr_block     = "0.0.0.0/0"
+    cidr_block     = var.cidr
     nat_gateway_id = aws_nat_gateway.nat_gateway_az1.id
   }
 
   tags = {
-    Name = "private route table az1"
+    Name = var.private_route_table_az1_name
   }
 }
 
@@ -68,12 +68,12 @@ resource "aws_route_table" "private_route_table_az2" {
   vpc_id = var.vpc_id
 
   route {
-    cidr_block     = "0.0.0.0/0"
+    cidr_block     = var.cidr
     nat_gateway_id = aws_nat_gateway.nat_gateway_az2.id
   }
 
   tags = {
-    Name = "private route table az2"
+    Name = var.private_route_table_az2_name
   }
 }
 

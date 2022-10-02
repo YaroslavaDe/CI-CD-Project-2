@@ -19,9 +19,17 @@ variable "security_group_name" {
 variable "instance_name" {
   description = "Value of the Name tag for the EC2 instance"
   type        = string
-  default     = "Server in private subnet"
+  default     = "ec2 in private subnet az1"
+}
+
+variable "instance_name_second" {
+  description = "Value of the Name tag for the EC2 instance"
+  type        = string
+  default     = "ec2 in private subnet az2"
 }
 
 variable "private_app_subnet_az1_id" {}
+
 variable "private_app_subnet_az2_id" {}
+
 variable "vpc_id" {}

@@ -1,3 +1,4 @@
+# Autofill parameters
 region                       = "eu-west-2"
 project_name                 = "ci-cd"
 vpc_cidr                     = "10.0.0.0/16"
