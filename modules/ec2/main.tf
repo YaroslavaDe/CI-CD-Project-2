@@ -4,12 +4,14 @@ resource "aws_security_group" "ec2_security_group" {
   description = "allow SSH access on port 22"
   vpc_id      = var.vpc_id
 
-  ingress {
-    description = "ssh access"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+  dynamic "ingress" {
+    for_each = ["80", "22"]
+    content {
+      from_port   = ingress.value
+      to_port     = ingress.value
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
   }
 
   egress {
@@ -40,6 +42,7 @@ data "aws_ami" "amazon_linux_2" {
   }
 }
 
+
 # launch the ec2 instance in private subnet az1
 resource "aws_instance" "ec2_instance_az1" {
   ami                    = data.aws_ami.amazon_linux_2.id
@@ -47,6 +50,15 @@ resource "aws_instance" "ec2_instance_az1" {
   subnet_id              = var.private_app_subnet_az1_id
   vpc_security_group_ids = [aws_security_group.ec2_security_group.id]
   key_name               = var.ec2_key_pair
+
+  user_data = <<-EOF
+  #!/bin/bash
+  yum -y update
+  yum -y install httpd
+  echo "<html><body bgcolor=black><center><h1><p><font color=gold>Web Server 1</h1></center></body></html>" > /var/www/html/index.html
+  sudo service httpd start
+  chkconfig httpd on
+  EOF
 
   tags = {
     Name = var.instance_name
@@ -60,6 +72,15 @@ resource "aws_instance" "ec2_instance_az2" {
   subnet_id              = var.private_app_subnet_az2_id
   vpc_security_group_ids = [aws_security_group.ec2_security_group.id]
   key_name               = var.ec2_key_pair
+
+  user_data = <<-EOF
+  #!/bin/bash
+  yum -y update
+  yum -y install httpd
+  echo "<html><body bgcolor=grey><center><h1><p><font color=red>Web Server 2</h1></center></body></html>" > /var/www/html/index.html
+  sudo service httpd start
+  chkconfig httpd on
+  EOF
 
   tags = {
     Name = var.instance_name_second

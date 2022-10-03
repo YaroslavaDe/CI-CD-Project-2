@@ -34,6 +34,12 @@ module "BastionHOST" {
   public_subnet_az2_id = module.vpc.public_subnet_az2_id
 }
 
+# create security group
+module "security_group" {
+  source = "../modules/security-groups"
+  vpc_id = module.vpc.vpc_id
+}
+
 # launch ec2 instances in private subnet
 module "ec2" {
   source                    = "../modules/ec2"
@@ -41,3 +47,13 @@ module "ec2" {
   private_app_subnet_az1_id = module.vpc.private_app_subnet_az1_id
   private_app_subnet_az2_id = module.vpc.private_app_subnet_az2_id
 }
+
+module "application_load_balancer" {
+  source                    = "../modules/elb"
+  project_name              = module.vpc.project_name
+  alb_security_group_id     = module.security_group.alb_security_group_id
+  private_app_subnet_az1_id = module.vpc.private_app_subnet_az1_id
+  private_app_subnet_az2_id = module.vpc.private_app_subnet_az2_id
+  vpc_id                    = module.vpc.vpc_id
+}
+
