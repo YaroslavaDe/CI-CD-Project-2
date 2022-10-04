@@ -57,11 +57,6 @@ yum update -y
 yum install httpd -y
 systemctl start httpd
 service systemctl enable httpd
-usermod -a -G apache ec2-user
-chown -R ec2-user:apache /var/www
-chmod 2775 /var/www
-find /var/www -type d -exec chmod 2775 {} \;
-find /var/www -type f -exec chmod 0664 {} \;
 echo "<html><body bgcolor=black><center><h1><p><font color=gold>Web Server 1</h1></center></body></html>" > /var/www/html/index.html
 EOF
 
@@ -84,11 +79,6 @@ yum update -y
 yum install httpd -y
 systemctl start httpd
 service systemctl enable httpd
-usermod -a -G apache ec2-user
-chown -R ec2-user:apache /var/www
-chmod 2775 /var/www
-find /var/www -type d -exec chmod 2775 {} \;
-find /var/www -type f -exec chmod 0664 {} \;
 echo "<html><body bgcolor=grey><center><h1><p><font color=red>Web Server 2</h1></center></body></html>" > /var/www/html/index.html
 EOF
 
