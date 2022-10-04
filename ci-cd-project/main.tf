@@ -49,11 +49,11 @@ module "ec2" {
 }
 
 module "application_load_balancer" {
-  source                    = "../modules/elb"
-  project_name              = module.vpc.project_name
-  alb_security_group_id     = module.security_group.alb_security_group_id
-  private_app_subnet_az1_id = module.vpc.private_app_subnet_az1_id
-  private_app_subnet_az2_id = module.vpc.private_app_subnet_az2_id
-  vpc_id                    = module.vpc.vpc_id
+  source                = "../modules/elb"
+  project_name          = module.vpc.project_name
+  alb_security_group_id = module.security_group.alb_security_group_id
+  public_subnet_az1_id  = module.vpc.public_subnet_az1_id
+  public_subnet_az2_id  = module.vpc.public_subnet_az2_id
+  vpc_id                = module.vpc.vpc_id
 }
 
