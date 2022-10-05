@@ -85,4 +85,5 @@ EOF
   tags = {
     Name = var.instance_name_second
   }
+
 }

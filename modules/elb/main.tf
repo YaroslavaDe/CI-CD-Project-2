@@ -47,4 +47,16 @@ resource "aws_lb_listener" "alb_http_listener" {
   }
   }
 
+  # Attach the target group
+ resource "aws_lb_target_group_attachment" "tg_attachment" {
+    target_group_arn = aws_lb_target_group.alb_target_group.arn
+    target_id        = var.instance_alb
+    port             = 80
+ }
 
+ # Attach the target group
+ resource "aws_lb_target_group_attachment" "tg_attachment_second" {
+    target_group_arn = aws_lb_target_group.alb_target_group.arn
+    target_id        = var.instance_alb_second
+    port             = 80
+ }

@@ -46,6 +46,9 @@ module "ec2" {
   vpc_id                    = module.vpc.vpc_id
   private_app_subnet_az1_id = module.vpc.private_app_subnet_az1_id
   private_app_subnet_az2_id = module.vpc.private_app_subnet_az2_id
+
+  depends_on = [module.nat_gateway]
+
 }
 
 module "application_load_balancer" {
@@ -55,5 +58,7 @@ module "application_load_balancer" {
   public_subnet_az1_id  = module.vpc.public_subnet_az1_id
   public_subnet_az2_id  = module.vpc.public_subnet_az2_id
   vpc_id                = module.vpc.vpc_id
+  instance_alb          = module.ec2.instance_alb
+  instance_alb_second   = module.ec2.instance_alb_second
 }
 
